@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-t7k3xaoj9$pw%1vd*8*_l^+^sl%-_rurtgw(!0f8qpsdge6p7p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'taskify-backend-6tv5.onrender.com',
+]
 
 
 # Application definition
