@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-t7k3xaoj9$pw%1vd*8*_l^+^sl%-_rurtgw(!0f8qpsdge6p7p
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'localhost',
     'taskify-backend-6tv5.onrender.com',
 ]
 
@@ -43,11 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'tasks',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,3 +147,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
