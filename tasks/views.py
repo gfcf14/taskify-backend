@@ -1,11 +1,35 @@
-from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.decorators import api_view
 from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer
 
-class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
+class ProjectListView(generics.ListCrateAPIView):
     serializer_class = ProjectSerializer
 
-class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all()
+    def get_queryset(self):
+        queryset = Project.objects.all()
+        sort_by = self.request.query_params.get('sort_by', None)
+
+        if (sort_by == 'status'):
+            queryset = queryset.order_by('status')
+
+        return queryset
+
+class TaskListView(generics.ListCrateAPIView):
     serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        queryset = Task.objects.all()
+        sort_by = self.request.query_params.get('sort_by', None)
+
+        if  (sort_by == 'status'):
+            queryset = queryset.order_by('status')
+
+        return queryset
+
+@api_view(['GET'])
+def get_totals(request):
+    total_projects = Project.objects.count()
+    total_tasks = Task.objects.count()
+
+    return JsonResponse({"total_projects": total_projects, "total_tasks": total_tasks})
