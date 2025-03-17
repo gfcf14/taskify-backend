@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer
 
-class ProjectListView(generics.ListCrateAPIView):
+class ProjectListView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
@@ -15,7 +15,7 @@ class ProjectListView(generics.ListCrateAPIView):
 
         return queryset
 
-class TaskListView(generics.ListCrateAPIView):
+class TaskListView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
     def get_queryset(self):
