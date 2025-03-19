@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/projects/', ProjectListView.as_view(), name='project_list'),
     path('api/projects/<int:project_id>', TaskListView.as_view(), name='task_list'),
+    path('api/tasks/', TaskListView.as_view(), name='task_list'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/totals', get_totals, name='get_totals'),
