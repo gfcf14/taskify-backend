@@ -4,11 +4,8 @@ from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer
 
 class ProjectListView(generics.ListCreateAPIView):
+    queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-
-    def get_queryset(self):
-        queryset = Project.objects.all()
-        serializer_class = ProjectSerializer
 
 class TaskListView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
