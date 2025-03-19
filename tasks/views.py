@@ -12,7 +12,7 @@ class TaskListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Task.objects.all()
-        project_id = self.request.query_params.get('id', None)
+        project_id = self.kwargs['project_id']
 
         return Task.objects.filter(project=project_id)
 

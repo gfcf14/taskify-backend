@@ -1,4 +1,4 @@
 .env
-taskify_backend/__pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
