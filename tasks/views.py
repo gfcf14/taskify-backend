@@ -8,24 +8,16 @@ class ProjectListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Project.objects.all()
-        sort_by = self.request.query_params.get('sort_by', None)
-
-        if (sort_by == 'status'):
-            queryset = queryset.order_by('status')
-
-        return queryset
+        serializer_class = ProjectSerializer
 
 class TaskListView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
     def get_queryset(self):
         queryset = Task.objects.all()
-        sort_by = self.request.query_params.get('sort_by', None)
+        project_id = self.request.query_params.get('id', None)
 
-        if  (sort_by == 'status'):
-            queryset = queryset.order_by('status')
-
-        return queryset
+        return Task.objects.filter(project=project_id)
 
 @api_view(['GET'])
 def get_totals(request):
