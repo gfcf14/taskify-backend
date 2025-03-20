@@ -17,14 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from tasks.views import ProjectListView, ProjectDetailView, TaskListView, TaskDetailView, get_totals
+from tasks.views import ProjectView, TaskDetailView, get_totals
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/projects/', ProjectListView.as_view(), name='project_list'),
-    path('api/projects/<int:pk>', ProjectDetailView.as_view(), name='project_detail'),
-    path('api/projects/<int:project_id>', TaskListView.as_view(), name='task_list'),
-    path('api/tasks/', TaskListView.as_view(), name='task_list'),
+    path('api/projects/', ProjectView.as_view(), name='project_list'),
+    path('api/projects/<int:id>', ProjectView.as_view(), name='project_detail'),
     path('api/tasks/<int:pk>', TaskDetailView.as_view(), name='task_detail'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

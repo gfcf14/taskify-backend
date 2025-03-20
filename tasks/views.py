@@ -1,24 +1,42 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import Project, Task
 from .serializers import ProjectSerializer, TaskSerializer
 
-class ProjectListView(generics.ListCreateAPIView):
+class ProjectView(generics.GenericAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+    def get(self, request, *args, **kwargs):
+        queryset = Project.objects.all()
+        serializer_class = ProjectSerializer
 
-class TaskListView(generics.ListCreateAPIView):
-    serializer_class = TaskSerializer
+        if 'id' in kwargs:
+            project_id = kwargs['id']
+            tasks = Task.objects.filter(project=project_id)
+            serializer = TaskSerializer(tasks, many=True)
+        else:
+            projects = Project.objects.all()
+            serializer = ProjectSerializer(projects, many=True)
 
-    def get_queryset(self):
-        queryset = Task.objects.all()
-        project_id = self.kwargs['project_id']
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Task.objects.filter(project=project_id)
+    def post(self, request, *args, **kwargs):
+        serializer = ProjectSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        project = Project.objects.get(id=kwargs['id'])
+        project.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
