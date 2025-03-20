@@ -12,8 +12,8 @@ class ProjectView(generics.GenericAPIView):
         queryset = Project.objects.all()
         serializer_class = ProjectSerializer
 
-        if 'id' in kwargs:
-            project_id = kwargs['id']
+        if 'pk' in kwargs:
+            project_id = kwargs['pk']
             tasks = Task.objects.filter(project=project_id)
             serializer = TaskSerializer(tasks, many=True)
         else:
@@ -32,11 +32,22 @@ class ProjectView(generics.GenericAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, *args, **kwargs):
+        project = self.get_object()
+        serializer = ProjectSerializer(project, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
     def delete(self, request, *args, **kwargs):
         project = Project.objects.get(id=kwargs['id'])
         project.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TaskListView(generics.ListCreateAPIView):
+    serializer_class = TaskSerializer
 
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
