@@ -7,6 +7,10 @@ class ProjectListView(generics.ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
 class TaskListView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
@@ -15,6 +19,10 @@ class TaskListView(generics.ListCreateAPIView):
         project_id = self.kwargs['project_id']
 
         return Task.objects.filter(project=project_id)
+
+class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
 @api_view(['GET'])
 def get_totals(request):
