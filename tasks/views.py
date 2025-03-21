@@ -41,7 +41,7 @@ class ProjectView(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, *args, **kwargs):
-        project = Project.objects.get(id=kwargs['id'])
+        project = Project.objects.get(id=kwargs['pk'])
         project.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
