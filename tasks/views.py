@@ -52,10 +52,3 @@ class TaskListView(generics.ListCreateAPIView):
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-
-@api_view(['GET'])
-def get_totals(request):
-    total_projects = Project.objects.count()
-    total_tasks = Task.objects.count()
-
-    return JsonResponse({"total_projects": total_projects, "total_tasks": total_tasks})
