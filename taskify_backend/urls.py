@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from tasks.views import ProjectView, TaskListView, TaskDetailView, get_totals
+from tasks.views import ProjectView, TaskListView, TaskDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
